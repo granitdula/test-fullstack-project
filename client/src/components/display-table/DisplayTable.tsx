@@ -24,13 +24,13 @@ export default function DisplayTable(props: { carData: CarResponseData }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.carData.map((entry) => (
-                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    {props.carData.map((entry, index) => (
+                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                             <TableCell component="th" scope="row">
                                 {entry.make}
                             </TableCell>
                             <TableCell align="right">{entry.model}</TableCell>
-                            <TableCell align="right">{entry.year.getFullYear()}</TableCell>
+                            <TableCell align="right">{`${entry.year}`}</TableCell>
                             <TableCell align="right">{entry.colour}</TableCell>
                             <TableCell align="right">{entry.mileage}</TableCell>
                         </TableRow>

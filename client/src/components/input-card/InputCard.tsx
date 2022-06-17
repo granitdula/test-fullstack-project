@@ -3,8 +3,26 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Container, Stack } from '@mui/material';
 import React from 'react';
+import { CarResponseData } from '../../types/ApiResponse';
+import CarDataService from '../../services/CarDataService';
+import axios from 'axios';
 
-export default class InputCard extends React.Component {
+export default class InputCard extends React.Component<
+    { updateAllCarData: (carData: CarResponseData) => void },
+    unknown
+> {
+    private carDataService: CarDataService;
+
+    constructor(props: { updateAllCarData: (carData: CarResponseData) => void }) {
+        super(props);
+        this.carDataService = new CarDataService(axios.create());
+    }
+
+    private onShowCarButtonPress = async () => {
+        const carData = await this.carDataService.getAllCars();
+        this.props.updateAllCarData(carData);
+    };
+
     render() {
         return (
             <Container fixed maxWidth="md">
@@ -20,7 +38,9 @@ export default class InputCard extends React.Component {
                     <Button variant="contained" color="success">
                         Add Car
                     </Button>
-                    <Button variant="contained">Show Cars</Button>
+                    <Button variant="contained" onClick={this.onShowCarButtonPress}>
+                        Show Cars
+                    </Button>
                 </Stack>
             </Container>
         );

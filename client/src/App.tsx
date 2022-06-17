@@ -4,36 +4,29 @@ import DisplayTable from './components/display-table/DisplayTable';
 import InputCard from './components/input-card/InputCard';
 import { CarResponseData } from './types/ApiResponse';
 
-export default class App extends React.Component {
-    render() {
-        const carData: CarResponseData = [
-            {
-                make: 'Volkswagen',
-                model: 'Golf V',
-                year: new Date(2010, 1),
-                colour: 'Silver',
-                mileage: 100000,
-            },
-            {
-                make: 'Pegeot',
-                model: '208',
-                year: new Date(2019, 1),
-                colour: 'Red',
-                mileage: 20000,
-            },
-            {
-                make: 'Mercedes-Benz',
-                model: 'C-class',
-                year: new Date(2015, 1),
-                colour: 'Black',
-                mileage: 70000,
-            },
-        ];
+type AppState = {
+    carData: CarResponseData;
+};
 
+export default class App extends React.Component<unknown, AppState> {
+    constructor(props: unknown) {
+        super(props);
+        this.state = { carData: [] };
+    }
+
+    private updateAllCarData = (carData: CarResponseData): void => {
+        this.setState({ carData });
+    };
+
+    render() {
         return (
             <div>
-                <InputCard />
-                <DisplayTable carData={carData} />
+                <InputCard updateAllCarData={this.updateAllCarData} />
+                {this.state.carData.length > 0 ? (
+                    <DisplayTable carData={this.state.carData} />
+                ) : (
+                    <h2 style={{ width: '35.5em', marginLeft: 'auto', marginRight: 'auto' }}>No Data Shown</h2>
+                )}
             </div>
         );
     }
